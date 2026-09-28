@@ -1,7 +1,7 @@
 # NETWORK INTERFACE
 
 resource "azurerm_network_interface" "nic" {
-  name                = "nitin-nic"
+  name                = var.network_interface
   location            = azurerm_resource_group.my_rg.location
   resource_group_name = azurerm_resource_group.my_rg.name
 
@@ -10,6 +10,10 @@ resource "azurerm_network_interface" "nic" {
     subnet_id                     = azurerm_subnet.my_subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.public_ip.id
+  }
+  tags = {
+    Description = "netwrok interface for the system"
+    Environment = var.env
   }
 }
 
