@@ -1,7 +1,7 @@
 #linux virtual machine
 
 resource "azurerm_linux_virtual_machine" "my_vm" {
-  name                = "RoadGuardAI"
+  name                = var.linux_machine
   location            = azurerm_resource_group.my_rg.location
   resource_group_name = azurerm_resource_group.my_rg.name
 
@@ -36,5 +36,9 @@ resource "azurerm_linux_virtual_machine" "my_vm" {
     offer     = "ubuntu-24_04-lts"
     sku       = "server"
     version   = "latest"
+  }
+  tags = {
+    Description = "vm machine server for the Roadguard_Ai "
+    Environment = var.env
   }
 }
