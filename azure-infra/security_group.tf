@@ -3,7 +3,7 @@
 # ==========================================
 
 resource "azurerm_network_security_group" "my_security" {
-  name                = "terra-security"
+  name                = var.security_group_name
   location            = azurerm_resource_group.my_rg.location
   resource_group_name = azurerm_resource_group.my_rg.name
 
@@ -128,5 +128,9 @@ resource "azurerm_network_security_group" "my_security" {
     destination_port_range     = "*"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
+  }
+  tags = {
+    Description = "security_group(inbound , outbound) rule of the Roadgurad-Ai"
+    Environment  = var.env
   }
 }
