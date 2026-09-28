@@ -1,0 +1,6 @@
+  - name: Roadgurad-Ai deployment
+    become: yes
+    host: servers
+    roles:
+     - docker
+     - kubernetes
