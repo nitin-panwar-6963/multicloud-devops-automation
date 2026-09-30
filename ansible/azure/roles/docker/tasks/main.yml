@@ -1,2 +1,69 @@
 ---
 # tasks file for roles/docker
+
+- name: Update apt cache and upgrade system packages
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Install Git, Docker, and Docker Compose
+  apt:
+    name:
+      - git
+      - docker.io
+      - docker-compose-v2
+    state: present
+
+- name: Ensure Docker service is started and enabled
+  service:
+    name: docker
+    enabled: yes
+    state: started
+
+- name: Add azureuser to docker group
+  user:
+    name: azureuser
+    groups: docker
+    append: yes
+
+# Clone new GitHub repository
+- name: Clone Nitin-Tushar GitHub Repository
+  git:
+    repo: "https://github.com/nitin-panwar-6963/nitin-tushar-1.git"
+    dest: /home/azureuser/nitin-tushar-1
+    version: main
+    force: yes
+
+# Copy backend .env
+- name: Copy backend environment file
+  copy:
+    src: .env
+    dest: /home/azureuser/nitin-tushar-1/backend/.env
+    owner: azureuser
+    group: azureuser
+    mode: "0600"
+
+# Copy frontend .env.local
+- name: Copy frontend environment file
+  copy:
+    src: .env.local
+    dest: /home/azureuser/nitin-tushar-1/frontend/.env.local
+    owner: azureuser
+    group: azureuser
+    mode: "0600"
+
+#Copy the Caddy file for tcl/ssl certificate
+
+- name: Copy Caddy file to system dynamically
+  copy:
+    src: ../../../../Caddyfile
+    dest: /home/azureuser/nitin-tushar-1/Caddyfile
+    mode: '0777'
+    group: azureuser
+    owner: azureuser
+
+# Build and start Docker containers
+- name: Build and start containers using Docker Compose
+  command: docker compose up --build -d
+  args:
+    chdir: /home/azureuser/nitin-tushar-1
