@@ -56,7 +56,7 @@
 
 - name: Copy Caddy file to system dynamically
   copy:
-    src: ../../../../Caddyfile
+    src: Caddyfile
     dest: /home/azureuser/nitin-tushar-1/Caddyfile
     mode: '0777'
     group: azureuser
