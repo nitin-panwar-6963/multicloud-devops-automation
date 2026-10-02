@@ -1,0 +1,25 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: road-front
+  namespace: roadguard
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: roadguard-front
+        image: nitinpanwar6963/roadguard-frontend
+        ports:
+        - containerPort: 100
+        envFrom:
+        - configMapRef:
+            name: frontend-config
