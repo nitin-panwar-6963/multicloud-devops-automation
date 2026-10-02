@@ -1,0 +1,25 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: road-back
+  namespace: roadguard
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: roadguard-backend
+        image: nitinpanwar6963/roadguard-backend
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+           name: backend-config
