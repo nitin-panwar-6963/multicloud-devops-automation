@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: service-frontend
+  namespace: roadguard
+
+spec:
+  selector:
+    app: frontend
+
+  type: ClusterIP
+  ports:
+  - port: 100
+    targetPort: 100
+    protocol: "TCP"
