@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend
+  namespace: roadguard
+
+spec:
+  selector:
+    app: backend
+
+  type: NodePort
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: "TCP"
