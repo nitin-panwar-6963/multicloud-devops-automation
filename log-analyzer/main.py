@@ -11,14 +11,11 @@ from email.message import EmailMessage
 # Load environment variables
 load_dotenv()
 
-
-# =========================
 # Email Configuration
-# =========================
 
 sender_email = os.environ.get("SENDER_EMAIL")
 receiver_email = os.environ.get("RECEIVER_EMAIL")
-app_password = os.environ.get("GMAIL_APP_PASSWORD")
+app_password = os.environ.get("APP_PASSWORD")
 
 
 def mail_sender(source, content):
@@ -42,32 +39,19 @@ def mail_sender(source, content):
 
     return f"Email is sent to {receiver_email}"
 
-
-# =========================
 # FastAPI Application
-# =========================
-
 app = FastAPI(
     title="Nitin Log Analyzer 🚀",
     description="AI-powered Log Analyzer for Developers and DevOps Engineers",
     version="1.0.0"
 )
 
-
-# =========================
 # Groq Client
-# =========================
-
 client = OpenAI(
     api_key=os.environ.get("GROQ_API_KEY"),
     base_url="https://api.groq.com/openai/v1"
 )
-
-
-# =========================
 # Pydantic Model
-# =========================
-
 class LogRequest(BaseModel):
 
     logs: Annotated[
@@ -77,11 +61,7 @@ class LogRequest(BaseModel):
             description="Jenkins or GitHub Actions pipeline logs"
         )
     ]
-
-
-# =========================
 # AI System Prompt
-# =========================
 
 SYSTEM_PROMPT = """
 You are Nitin Log Analyzer, a CI/CD failure analysis assistant.
@@ -183,11 +163,6 @@ Rules:
 - Always provide exactly 3 solutions.
 """
 
-
-# =========================
-# Main Route
-# =========================
-
 @app.get("/")
 def greet():
 
@@ -196,12 +171,7 @@ def greet():
         "status": "online",
         "version": "1.0.0"
     }
-
-
-# =========================
 # Webhook Route
-# =========================
-
 @app.post("/webhook/{platform}")
 def analyze_logs(
     platform: str,
@@ -247,6 +217,5 @@ Logs to Analyze:
 
     # Return response
     return {
-        "Email_status": email_status,
-        "analysis": analysis
+        "Email_status": email_status
     }
